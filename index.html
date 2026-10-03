@@ -1,0 +1,1319 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Study OS — Personal Study Tracker</title>
+<!-- Tailwind CSS CDN -->
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    darkMode: 'class',
+    theme: {
+      extend: {
+        colors: {
+          brand: {
+            bg: '#080d18',
+            panel: '#101827',
+            panel2: '#172237',
+            border: '#26344d',
+            accent: '#61d8ff',
+            green: '#62e6b4',
+            orange: '#ffc36b',
+            red: '#ff7e91',
+            muted: '#8d9bb5',
+            text: '#edf4ff'
+          }
+        }
+      }
+    }
+  }
+</script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  body { font-family: 'Inter', sans-serif; }
+  /* Custom scrollbar */
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: #0b1220; }
+  ::-webkit-scrollbar-thumb { background: #26344d; border-radius: 4px; }
+  ::-webkit-scrollbar-thumb:hover { background: #61d8ff; }
+</style>
+</head>
+<body class="bg-[#080d18] text-[#edf4ff] min-h-screen selection:bg-[#61d8ff] selection:text-[#061019]">
+
+<div class="flex min-h-screen">
+  
+  <!-- Sidebar Navigation -->
+  <aside id="sidebar" class="w-64 fixed inset-y-0 left-0 bg-[#0b1220] border-r border-[#26344d] p-5 flex flex-col z-30 transition-all duration-300 transform -translate-x-full md:translate-x-0">
+    <div class="flex items-center justify-between mb-8">
+      <div class="text-xl font-black tracking-wider flex items-center gap-2">
+        <span>STUDY</span><span class="text-[#61d8ff]">OS</span>
+      </div>
+      <button id="closeSidebar" class="md:hidden text-[#8d9bb5] hover:text-white p-1">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+      </button>
+    </div>
+    
+    <nav class="space-y-1 flex-1 overflow-y-auto">
+      <button class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold transition-all bg-[#172237] text-[#edf4ff] shadow-sm" data-page="dashboard">
+        <svg class="w-5 h-5 text-[#61d8ff]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path></svg>
+        Dashboard
+      </button>
+      <button class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all text-[#8d9bb5] hover:bg-[#172237] hover:text-[#edf4ff]" data-page="gate">
+        <svg class="w-5 h-5 text-[#62e6b4]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+        GATE Command
+      </button>
+      <button class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all text-[#8d9bb5] hover:bg-[#172237] hover:text-[#edf4ff]" data-page="dsa">
+        <svg class="w-5 h-5 text-[#ffc36b]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>
+        DSA Roadmap
+      </button>
+      <button class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all text-[#8d9bb5] hover:bg-[#172237] hover:text-[#edf4ff]" data-page="web">
+        <svg class="w-5 h-5 text-[#61d8ff]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"></path></svg>
+        Web Dev
+      </button>
+      <button class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all text-[#8d9bb5] hover:bg-[#172237] hover:text-[#edf4ff]" data-page="academic">
+        <svg class="w-5 h-5 text-[#ff7e91]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+        Academics
+      </button>
+      <button class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all text-[#8d9bb5] hover:bg-[#172237] hover:text-[#edf4ff]" data-page="planner">
+        <svg class="w-5 h-5 text-[#62e6b4]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+        Daily Planner
+      </button>
+      <button class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all text-[#8d9bb5] hover:bg-[#172237] hover:text-[#edf4ff]" data-page="mock">
+        <svg class="w-5 h-5 text-[#ffc36b]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"></path></svg>
+        Mock Tests
+      </button>
+      <button class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all text-[#8d9bb5] hover:bg-[#172237] hover:text-[#edf4ff]" data-page="analytics">
+        <svg class="w-5 h-5 text-[#61d8ff]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+        Analytics
+      </button>
+      <button class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all text-[#8d9bb5] hover:bg-[#172237] hover:text-[#edf4ff]" data-page="timer">
+        <svg class="w-5 h-5 text-[#ff7e91]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+        Focus Timer
+      </button>
+    </nav>
+    
+    <div class="pt-4 mb-4 border-t border-[#26344d] flex items-center gap-3">
+      <div class="relative shrink-0">
+        <img src="data:image/jpeg;base64,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" alt="Sujeet Kumar" class="w-11 h-11 rounded-full object-cover ring-2 ring-[#61d8ff]/50 shadow-md">
+        <span class="absolute bottom-0 right-0 w-3 h-3 bg-[#62e6b4] border-2 border-[#0b1220] rounded-full"></span>
+      </div>
+      <div class="min-w-0">
+        <h4 class="text-sm font-semibold text-[#edf4ff] truncate">Sujeet Kumar</h4>
+        <p class="text-[11px] text-[#8d9bb5] leading-tight truncate">© 2026 All Rights Reserved</p>
+        <span class="inline-block mt-0.5 text-[10px] bg-[#61d8ff]/15 text-[#61d8ff] px-1.5 py-0.5 rounded font-mono">Lead Engineer</span>
+      </div>
+    </div>
+    
+    <div class="pt-3 border-t border-[#26344d] text-xs text-[#8d9bb5] flex justify-between items-center">
+      <span>Study OS v2.5</span>
+      <button onclick="exportData()" class="hover:text-[#61d8ff] transition-colors underline">Export Data</button>
+    </div>
+  </aside>
+
+  <main class="flex-1 md:ml-64 p-4 md:p-8 max-w-[1600px] w-full">
+    <!-- Top Header -->
+    <header class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8 bg-[#101827]/90 backdrop-blur border border-[#26344d] p-5 rounded-2xl shadow-xl">
+      <div class="flex items-center gap-3">
+        <button id="openSidebar" class="md:hidden p-2 rounded-xl bg-[#172237] text-[#8d9bb5] hover:text-white">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+        </button>
+        <div>
+          <h1 id="pageTitle" class="text-2xl md:text-3xl font-extrabold tracking-tight">Study Dashboard 👋</h1>
+          <div class="text-[#8d9bb5] text-xs md:text-sm mt-1" id="currentDate"></div>
+        </div>
+      </div>
+      <div class="flex items-center gap-3 w-full sm:w-auto justify-end">
+        <button id="addSessionBtn" class="bg-[#61d8ff] hover:bg-[#4bc2e8] text-[#061019] px-5 py-2.5 rounded-xl font-bold text-sm shadow-lg shadow-[#61d8ff]/20 transition-all transform active:scale-95 flex items-center gap-2">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+          Log Session
+        </button>
+      </div>
+    </header>
+
+    <section id="dashboard" class="module space-y-6">
+      <!-- Stats Overview Grid -->
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        <div class="bg-[#101827] border border-[#26344d] rounded-2xl p-5 shadow-lg relative overflow-hidden">
+          <div class="absolute -right-4 -bottom-4 w-20 h-20 bg-[#61d8ff]/5 rounded-full blur-xl"></div>
+          <div class="text-xs font-semibold text-[#8d9bb5] uppercase tracking-wider">Today's Study</div>
+          <div class="text-2xl md:text-3xl font-black mt-2 text-[#edf4ff]" id="statToday">0h 0m</div>
+          <div class="text-xs text-[#8d9bb5] mt-1 flex items-center gap-1">⏱️ Active focus time</div>
+        </div>
+        <div class="bg-[#101827] border border-[#26344d] rounded-2xl p-5 shadow-lg relative overflow-hidden">
+          <div class="absolute -right-4 -bottom-4 w-20 h-20 bg-[#ffc36b]/5 rounded-full blur-xl"></div>
+          <div class="text-xs font-semibold text-[#8d9bb5] uppercase tracking-wider">Current Streak</div>
+          <div class="text-2xl md:text-3xl font-black mt-2 text-[#ffc36b]" id="statStreak">0 🔥</div>
+          <div class="text-xs text-[#8d9bb5] mt-1">Consequent study days</div>
+        </div>
+        <div class="bg-[#101827] border border-[#26344d] rounded-2xl p-5 shadow-lg relative overflow-hidden">
+          <div class="absolute -right-4 -bottom-4 w-20 h-20 bg-[#62e6b4]/5 rounded-full blur-xl"></div>
+          <div class="text-xs font-semibold text-[#8d9bb5] uppercase tracking-wider">Sessions</div>
+          <div class="text-2xl md:text-3xl font-black mt-2 text-[#62e6b4]" id="statCount">0</div>
+          <div class="text-xs text-[#8d9bb5] mt-1">Completed today</div>
+        </div>
+        <div class="bg-[#101827] border border-[#26344d] rounded-2xl p-5 shadow-lg relative overflow-hidden">
+          <div class="absolute -right-4 -bottom-4 w-20 h-20 bg-[#ff7e91]/5 rounded-full blur-xl"></div>
+          <div class="text-xs font-semibold text-[#8d9bb5] uppercase tracking-wider">Daily Goal (6h)</div>
+          <div class="text-2xl md:text-3xl font-black mt-2 text-[#ff7e91]" id="statPercent">0%</div>
+          <div class="w-full bg-[#172237] h-2 rounded-full mt-2 overflow-hidden">
+            <div id="statProgressBar" class="bg-gradient-to-r from-[#61d8ff] to-[#62e6b4] h-full rounded-full transition-all duration-500" style="width: 0%"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main Dashboard Grid Layout -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <!-- Subject Progress -->
+        <div class="bg-[#101827] border border-[#26344d] rounded-2xl p-6 shadow-lg flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <h2 class="text-lg font-bold">Subject Progress</h2>
+              <span class="text-xs text-[#8d9bb5]">Target: 10h each</span>
+            </div>
+            <div id="subjectProgressList" class="space-y-4">
+              <!-- Dynamically populated -->
+            </div>
+          </div>
+          <div class="mt-6 pt-4 border-t border-[#26344d] flex justify-between text-xs text-[#8d9bb5]">
+            <span>Tip: Log sessions daily</span>
+            <button onclick="switchTab('timer')" class="text-[#61d8ff] hover:underline font-semibold">Start Timer →</button>
+          </div>
+        </div>
+
+        <!-- Today's Sessions -->
+        <div class="bg-[#101827] border border-[#26344d] rounded-2xl p-6 shadow-lg flex flex-col">
+          <div class="flex items-center justify-between mb-4">
+            <h2 class="text-lg font-bold">Today's Sessions</h2>
+            <span id="sessionCountBadge" class="text-xs bg-[#172237] text-[#61d8ff] px-2.5 py-1 rounded-full font-semibold">0 logged</span>
+          </div>
+          <div id="sessionsListContainer" class="space-y-3 overflow-y-auto max-h-[320px] flex-1 pr-1">
+            <!-- Dynamically populated -->
+          </div>
+        </div>
+
+        <!-- 7-Day Activity Heatmap -->
+        <div class="bg-[#101827] border border-[#26344d] rounded-2xl p-6 shadow-lg flex flex-col justify-between">
+          <div>
+            <h2 class="text-lg font-bold mb-4">7-Day Activity</h2>
+            <div id="weekCalendar" class="grid grid-cols-7 gap-2">
+              <!-- Dynamically populated -->
+            </div>
+          </div>
+          <div class="mt-6 bg-[#172237]/60 border border-[#26344d] rounded-xl p-4">
+            <h3 class="text-xs font-bold text-[#61d8ff] uppercase tracking-wider mb-1">Current Sprint Focus</h3>
+            <p class="text-xs text-[#8d9bb5] leading-relaxed">Focusing on GATE core subjects in morning slots, DSA problem patterns in afternoon, and full-stack projects in evening.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Core Aspirations & Goals -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="bg-[#101827] border border-[#26344d] rounded-2xl p-5 shadow-lg border-l-4 border-l-[#62e6b4]">
+          <div class="flex justify-between items-start mb-2">
+            <h3 class="font-bold text-base">🎯 GATE CS Target</h3>
+            <span class="text-xs bg-[#62e6b4]/10 text-[#62e6b4] px-2 py-0.5 rounded font-semibold">90-Day Sprint</span>
+          </div>
+          <p class="text-xs text-[#8d9bb5]">Master core computer science subjects through video lectures, systematic DPPs, PYQ analysis, and rigorous revision cycles.</p>
+        </div>
+        <div class="bg-[#101827] border border-[#26344d] rounded-2xl p-5 shadow-lg border-l-4 border-l-[#ffc36b]">
+          <div class="flex justify-between items-start mb-2">
+            <h3 class="font-bold text-base">💻 DSA Excellence</h3>
+            <span class="text-xs bg-[#ffc36b]/10 text-[#ffc36b] px-2 py-0.5 rounded font-semibold">Problem Solving</span>
+          </div>
+          <p class="text-xs text-[#8d9bb5]">Master algorithmic patterns from arrays and trees to advanced graphs and dynamic programming with clean C++/Python code.</p>
+        </div>
+        <div class="bg-[#101827] border border-[#26344d] rounded-2xl p-5 shadow-lg border-l-4 border-l-[#61d8ff]">
+          <div class="flex justify-between items-start mb-2">
+            <h3 class="font-bold text-base">🌐 Web Development</h3>
+            <span class="text-xs bg-[#61d8ff]/10 text-[#61d8ff] px-2 py-0.5 rounded font-semibold">Portfolio Projects</span>
+          </div>
+          <p class="text-xs text-[#8d9bb5]">Build scalable, high-performance web applications with modern frontend frameworks and robust backend services.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="gate" class="module hidden space-y-6">
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        <div class="bg-[#101827] border border-[#26344d] rounded-2xl p-5 shadow-lg">
+          <div class="text-xs font-semibold text-[#8d9bb5] uppercase tracking-wider">GATE Overall Completion</div>
+          <div class="text-2xl md:text-3xl font-black mt-2 text-[#62e6b4]" id="gateOverall">0%</div>
+          <div class="text-xs text-[#8d9bb5] mt-1">Across all tracked subjects</div>
+        </div>
+        <div class="bg-[#101827] border border-[#26344d] rounded-2xl p-5 shadow-lg">
+          <div class="text-xs font-semibold text-[#8d9bb5] uppercase tracking-wider">Lectures Completed</div>
+          <div class="text-2xl md:text-3xl font-black mt-2 text-[#61d8ff]" id="gateLectures">0%</div>
+          <div class="text-xs text-[#8d9bb5] mt-1">Video syllabus coverage</div>
+        </div>
+        <div class="bg-[#101827] border border-[#26344d] rounded-2xl p-5 shadow-lg">
+          <div class="text-xs font-semibold text-[#8d9bb5] uppercase tracking-wider">DPP Solved</div>
+          <div class="text-2xl md:text-3xl font-black mt-2 text-[#ffc36b]" id="gateDpp">0%</div>
+          <div class="text-xs text-[#8d9bb5] mt-1">Daily practice problems</div>
+        </div>
+        <div class="bg-[#101827] border border-[#26344d] rounded-2xl p-5 shadow-lg">
+          <div class="text-xs font-semibold text-[#8d9bb5] uppercase tracking-wider">PYQs & Revision</div>
+          <div class="text-2xl md:text-3xl font-black mt-2 text-[#ff7e91]" id="gatePyq">0%</div>
+          <div class="text-xs text-[#8d9bb5] mt-1">Past year questions & notes</div>
+        </div>
+      </div>
+
+      <div class="bg-[#101827] border border-[#26344d] rounded-2xl p-6 shadow-lg">
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6 pb-4 border-b border-[#26344d]">
+          <div>
+            <h2 class="text-xl font-bold">🎯 GATE Command Center</h2>
+            <p class="text-xs text-[#8d9bb5]">Comprehensive chapter tracking for GATE Computer Science & IT</p>
+          </div>
+          <!-- GATE Subject Tabs -->
+          <div id="gateTabs" class="flex flex-wrap gap-2">
+            <!-- Dynamically populated -->
+          </div>
+        </div>
+        <!-- GATE Subject Chapters Container -->
+        <div id="gateContentContainer" class="space-y-6">
+          <!-- Dynamically populated -->
+        </div>
+      </div>
+    </section>
+
+    <section id="dsa" class="module hidden space-y-6">
+      <div class="bg-[#101827] border border-[#26344d] rounded-2xl p-6 shadow-lg">
+        <div class="flex justify-between items-center mb-6 pb-4 border-b border-[#26344d]">
+          <div>
+            <h2 class="text-xl font-bold">💻 Data Structures & Algorithms Roadmap</h2>
+            <p class="text-xs text-[#8d9bb5]">Master foundational and advanced algorithmic patterns</p>
+          </div>
+          <button onclick="resetRoadmap('d')" class="text-xs bg-[#172237] hover:bg-[#26344d] text-[#8d9bb5] px-3 py-1.5 rounded-xl transition-colors">Reset DSA Progress</button>
+        </div>
+        <div id="dsaRoadmapContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+          <!-- Dynamically populated -->
+        </div>
+      </div>
+    </section>
+
+    <section id="web" class="module hidden space-y-6">
+      <div class="bg-[#101827] border border-[#26344d] rounded-2xl p-6 shadow-lg">
+        <div class="flex justify-between items-center mb-6 pb-4 border-b border-[#26344d]">
+          <div>
+            <h2 class="text-xl font-bold">🌐 Web Development Engineering Roadmap</h2>
+            <p class="text-xs text-[#8d9bb5]">From HTML/CSS foundations to full-stack cloud deployments</p>
+          </div>
+          <button onclick="resetRoadmap('w')" class="text-xs bg-[#172237] hover:bg-[#26344d] text-[#8d9bb5] px-3 py-1.5 rounded-xl transition-colors">Reset Web Dev Progress</button>
+        </div>
+        <div id="webRoadmapContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+          <!-- Dynamically populated -->
+        </div>
+      </div>
+    </section>
+
+    <section id="academic" class="module hidden space-y-6">
+      <div class="bg-[#101827] border border-[#26344d] rounded-2xl p-6 shadow-lg">
+        <div class="flex justify-between items-center mb-6 pb-4 border-b border-[#26344d]">
+          <div>
+            <h2 class="text-xl font-bold">📚 Academic Semester Tracker</h2>
+            <p class="text-xs text-[#8d9bb5]">University coursework, practical assignments, and core theory subjects</p>
+          </div>
+          <button onclick="resetRoadmap('a')" class="text-xs bg-[#172237] hover:bg-[#26344d] text-[#8d9bb5] px-3 py-1.5 rounded-xl transition-colors">Reset Academics Progress</button>
+        </div>
+        <div id="academicRoadmapContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+          <!-- Dynamically populated -->
+        </div>
+      </div>
+    </section>
+
+    <section id="planner" class="module hidden space-y-6">
+      <div class="bg-[#101827] border border-[#26344d] rounded-2xl p-6 shadow-lg">
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6 pb-4 border-b border-[#26344d]">
+          <div>
+            <h2 class="text-xl font-bold">🗓️ Daily Study Planner & Task Board</h2>
+            <p class="text-xs text-[#8d9bb5]">Organize your high-priority study objectives and daily deliverables</p>
+          </div>
+          <div class="flex items-center gap-3">
+            <button id="openTaskModal" class="bg-[#61d8ff] hover:bg-[#4bc2e8] text-[#061019] px-4 py-2 rounded-xl font-bold text-xs shadow-md transition-all flex items-center gap-2">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+              Add Task
+            </button>
+          </div>
+        </div>
+
+        <div class="flex gap-2 mb-6">
+          <button class="planner-tab px-4 py-2 rounded-xl text-xs font-semibold bg-[#172237] text-[#61d8ff] border border-[#61d8ff]/30 transition-all" onclick="filterPlanner('all')">All Tasks</button>
+          <button class="planner-tab px-4 py-2 rounded-xl text-xs font-semibold bg-[#101827] text-[#8d9bb5] border border-[#26344d] hover:bg-[#172237] transition-all" onclick="filterPlanner('pending')">Pending</button>
+          <button class="planner-tab px-4 py-2 rounded-xl text-xs font-semibold bg-[#101827] text-[#8d9bb5] border border-[#26344d] hover:bg-[#172237] transition-all" onclick="filterPlanner('completed')">Completed</button>
+        </div>
+
+        <div id="plannerListContainer" class="space-y-3">
+          <!-- Dynamically populated -->
+        </div>
+      </div>
+    </section>
+
+    <section id="mock" class="module hidden space-y-6">
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        <div class="bg-[#101827] border border-[#26344d] rounded-2xl p-5 shadow-lg">
+          <div class="text-xs font-semibold text-[#8d9bb5] uppercase tracking-wider">Total Tests Taken</div>
+          <div class="text-2xl md:text-3xl font-black mt-2 text-[#61d8ff]" id="mockCount">0</div>
+          <div class="text-xs text-[#8d9bb5] mt-1">Mock test assessments</div>
+        </div>
+        <div class="bg-[#101827] border border-[#26344d] rounded-2xl p-5 shadow-lg">
+          <div class="text-xs font-semibold text-[#8d9bb5] uppercase tracking-wider">Average Score</div>
+          <div class="text-2xl md:text-3xl font-black mt-2 text-[#ffc36b]" id="mockAvg">0</div>
+          <div class="text-xs text-[#8d9bb5] mt-1">Mean marks secured</div>
+        </div>
+        <div class="bg-[#101827] border border-[#26344d] rounded-2xl p-5 shadow-lg">
+          <div class="text-xs font-semibold text-[#8d9bb5] uppercase tracking-wider">Best Score</div>
+          <div class="text-2xl md:text-3xl font-black mt-2 text-[#62e6b4]" id="mockBest">0</div>
+          <div class="text-xs text-[#8d9bb5] mt-1">Highest benchmark</div>
+        </div>
+        <div class="bg-[#101827] border border-[#26344d] rounded-2xl p-5 shadow-lg">
+          <div class="text-xs font-semibold text-[#8d9bb5] uppercase tracking-wider">Latest Score</div>
+          <div class="text-2xl md:text-3xl font-black mt-2 text-[#ff7e91]" id="mockLatest">—</div>
+          <div class="text-xs text-[#8d9bb5] mt-1">Most recent test</div>
+        </div>
+      </div>
+
+      <div class="bg-[#101827] border border-[#26344d] rounded-2xl p-6 shadow-lg">
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6 pb-4 border-b border-[#26344d]">
+          <div>
+            <h2 class="text-xl font-bold">📝 Mock Test Tracker & Performance Log</h2>
+            <p class="text-xs text-[#8d9bb5]">Analyze your test scores, accuracy, and improvement over time</p>
+          </div>
+          <button id="openMockModal" class="bg-[#61d8ff] hover:bg-[#4bc2e8] text-[#061019] px-4 py-2 rounded-xl font-bold text-xs shadow-md transition-all flex items-center gap-2">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+            Add Mock Test
+          </button>
+        </div>
+        <div id="mockListContainer" class="space-y-3">
+          <!-- Dynamically populated -->
+        </div>
+      </div>
+    </section>
+
+    <section id="analytics" class="module hidden space-y-6">
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        <div class="bg-[#101827] border border-[#26344d] rounded-2xl p-5 shadow-lg">
+          <div class="text-xs font-semibold text-[#8d9bb5] uppercase tracking-wider">All-Time Study</div>
+          <div class="text-2xl md:text-3xl font-black mt-2 text-[#62e6b4]" id="analyticsAllTime">0h</div>
+          <div class="text-xs text-[#8d9bb5] mt-1">Cumulative study time</div>
+        </div>
+        <div class="bg-[#101827] border border-[#26344d] rounded-2xl p-5 shadow-lg">
+          <div class="text-xs font-semibold text-[#8d9bb5] uppercase tracking-wider">Best Study Day</div>
+          <div class="text-2xl md:text-3xl font-black mt-2 text-[#ffc36b]" id="analyticsBestDay">0h</div>
+          <div class="text-xs text-[#8d9bb5] mt-1">Maximum recorded in a day</div>
+        </div>
+        <div class="bg-[#101827] border border-[#26344d] rounded-2xl p-5 shadow-lg">
+          <div class="text-xs font-semibold text-[#8d9bb5] uppercase tracking-wider">Total Sessions</div>
+          <div class="text-2xl md:text-3xl font-black mt-2 text-[#61d8ff]" id="analyticsAllSessions">0</div>
+          <div class="text-xs text-[#8d9bb5] mt-1">Completed study blocks</div>
+        </div>
+        <div class="bg-[#101827] border border-[#26344d] rounded-2xl p-5 shadow-lg">
+          <div class="text-xs font-semibold text-[#8d9bb5] uppercase tracking-wider">Primary Subject</div>
+          <div class="text-2xl md:text-3xl font-black mt-2 text-[#ff7e91]" id="analyticsMainSubject">—</div>
+          <div class="text-xs text-[#8d9bb5] mt-1">Most studied category</div>
+        </div>
+      </div>
+
+      <div class="bg-[#101827] border border-[#26344d] rounded-2xl p-6 shadow-lg">
+        <div class="flex justify-between items-center mb-6 pb-4 border-b border-[#26344d]">
+          <div>
+            <h2 class="text-xl font-bold">📈 30-Day Activity Heatmap</h2>
+            <p class="text-xs text-[#8d9bb5]">Visualizing consistency and study intensity over the past month</p>
+          </div>
+        </div>
+        <div id="monthCalendarContainer" class="grid grid-cols-7 sm:grid-cols-10 gap-2.5">
+          <!-- Dynamically populated -->
+        </div>
+      </div>
+    </section>
+
+    <section id="timer" class="module hidden space-y-6">
+      <div class="bg-[#101827] border border-[#26344d] rounded-2xl p-8 shadow-xl max-w-xl mx-auto text-center relative overflow-hidden">
+        <div class="absolute -right-12 -top-12 w-40 h-40 bg-[#61d8ff]/5 rounded-full blur-3xl"></div>
+        <h2 class="text-2xl font-black mb-2">⏱️️ Pomodoro Focus Timer</h2>
+        <p class="text-xs text-[#8d9bb5] mb-8">Maintain deep focus with structured intervals. Completed timer sessions automatically log study time.</p>
+        
+        <div class="flex justify-center gap-3 mb-8">
+          <button onclick="setTimerMode('pomodoro', 25)" id="modePomodoro" class="px-4 py-2 rounded-xl text-xs font-bold bg-[#172237] text-[#61d8ff] border border-[#61d8ff]/40 transition-all">Pomodoro (25m)</button>
+          <button onclick="setTimerMode('shortBreak', 5)" id="modeShortBreak" class="px-4 py-2 rounded-xl text-xs font-bold bg-[#101827] text-[#8d9bb5] border border-[#26344d] hover:bg-[#172237] transition-all">Short Break (5m)</button>
+          <button onclick="setTimerMode('longBreak', 15)" id="modeLongBreak" class="px-4 py-2 rounded-xl text-xs font-bold bg-[#101827] text-[#8d9bb5] border border-[#26344d] hover:bg-[#172237] transition-all">Long Break (15m)</button>
+        </div>
+
+        <div id="timerDisplay" class="text-6xl md:text-8xl font-black tracking-widest text-[#edf4ff] mb-8 font-mono drop-shadow-lg">25:00</div>
+
+        <div class="mb-6 max-w-xs mx-auto">
+          <label class="block text-xs text-[#8d9bb5] mb-2 text-left">Select Subject for Timer Session</label>
+          <select id="timerSubject" class="w-full bg-[#0b1322] border border-[#26344d] rounded-xl px-4 py-2.5 text-sm text-[#edf4ff] focus:outline-none focus:border-[#61d8ff]">
+            <option>GATE</option>
+            <option>DSA</option>
+            <option>Web Development</option>
+            <option>Academics</option>
+            <option>Competition</option>
+          </select>
+        </div>
+
+        <div class="flex justify-center gap-4">
+          <button id="timerStartBtn" onclick="startTimer()" class="bg-[#62e6b4] hover:bg-[#4dd4a3] text-[#061019] px-8 py-3 rounded-xl font-extrabold text-sm shadow-lg shadow-[#62e6b4]/20 transition-all transform active:scale-95">Start Focus</button>
+          <button id="timerPauseBtn" onclick="pauseTimer()" class="bg-[#172237] hover:bg-[#26344d] text-[#edf4ff] px-6 py-3 rounded-xl font-bold text-sm border border-[#26344d] transition-all">Pause</button>
+          <button onclick="resetTimer()" class="bg-[#172237] hover:bg-[#26344d] text-[#ff7e91] px-6 py-3 rounded-xl font-bold text-sm border border-[#26344d] transition-all">Reset</button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<!-- Log Session Modal -->
+<div id="sessionModal" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 hidden items-center justify-center p-4">
+  <div class="bg-[#101a2b] border border-[#26344d] rounded-2xl w-full max-w-md p-6 shadow-2xl relative">
+    <h2 class="text-xl font-bold mb-4">Log Study Session</h2>
+    <div class="space-y-4">
+      <div>
+        <label class="block text-xs text-[#8d9bb5] mb-1">Subject Area</label>
+        <select id="modalSubject" class="w-full bg-[#0b1322] border border-[#26344d] rounded-xl px-4 py-2.5 text-sm text-[#edf4ff] focus:outline-none focus:border-[#61d8ff]">
+          <option>GATE</option>
+          <option>DSA</option>
+          <option>Web Development</option>
+          <option>Academics</option>
+          <option>Competition</option>
+        </select>
+      </div>
+      <div>
+        <label class="block text-xs text-[#8d9bb5] mb-1">Topic / Chapter</label>
+        <input id="modalTopic" type="text" placeholder="e.g. Dynamic Programming — Knapsack" class="w-full bg-[#0b1322] border border-[#26344d] rounded-xl px-4 py-2.5 text-sm text-[#edf4ff] focus:outline-none focus:border-[#61d8ff]">
+      </div>
+      <div>
+        <label class="block text-xs text-[#8d9bb5] mb-1">Duration (minutes)</label>
+        <input id="modalMinutes" type="number" min="1" placeholder="60" class="w-full bg-[#0b1322] border border-[#26344d] rounded-xl px-4 py-2.5 text-sm text-[#edf4ff] focus:outline-none focus:border-[#61d8ff]">
+      </div>
+    </div>
+    <div class="flex justify-end gap-3 mt-6">
+      <button id="closeSessionModal" class="bg-[#172237] hover:bg-[#26344d] text-[#8d9bb5] px-4 py-2 rounded-xl font-bold text-xs transition-all">Cancel</button>
+      <button id="saveSessionBtn" class="bg-[#61d8ff] hover:bg-[#4bc2e8] text-[#061019] px-5 py-2 rounded-xl font-bold text-xs shadow-md transition-all">Save Session</button>
+    </div>
+  </div>
+</div>
+
+<!-- Add Task Modal -->
+<div id="taskModal" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 hidden items-center justify-center p-4">
+  <div class="bg-[#101a2b] border border-[#26344d] rounded-2xl w-full max-w-md p-6 shadow-2xl relative">
+    <h2 class="text-xl font-bold mb-4">Add Planner Task</h2>
+    <div class="space-y-4">
+      <div>
+        <label class="block text-xs text-[#8d9bb5] mb-1">Task Description</label>
+        <input id="taskModalName" type="text" placeholder="e.g. Complete Operating Systems Lecture 12" class="w-full bg-[#0b1322] border border-[#26344d] rounded-xl px-4 py-2.5 text-sm text-[#edf4ff] focus:outline-none focus:border-[#61d8ff]">
+      </div>
+      <div>
+        <label class="block text-xs text-[#8d9bb5] mb-1">Area</label>
+        <select id="taskModalArea" class="w-full bg-[#0b1322] border border-[#26344d] rounded-xl px-4 py-2.5 text-sm text-[#edf4ff] focus:outline-none focus:border-[#61d8ff]">
+          <option>GATE</option>
+          <option>DSA</option>
+          <option>Web Development</option>
+          <option>Academics</option>
+          <option>Competition</option>
+        </select>
+      </div>
+      <div>
+        <label class="block text-xs text-[#8d9bb5] mb-1">Priority</label>
+        <select id="taskModalPriority" class="w-full bg-[#0b1322] border border-[#26344d] rounded-xl px-4 py-2.5 text-sm text-[#edf4ff] focus:outline-none focus:border-[#61d8ff]">
+          <option>High</option>
+          <option>Medium</option>
+          <option>Low</option>
+        </select>
+      </div>
+    </div>
+    <div class="flex justify-end gap-3 mt-6">
+      <button id="closeTaskModal" class="bg-[#172237] hover:bg-[#26344d] text-[#8d9bb5] px-4 py-2 rounded-xl font-bold text-xs transition-all">Cancel</button>
+      <button id="saveTaskBtn" class="bg-[#61d8ff] hover:bg-[#4bc2e8] text-[#061019] px-5 py-2 rounded-xl font-bold text-xs shadow-md transition-all">Save Task</button>
+    </div>
+  </div>
+</div>
+
+<!-- Add Mock Test Modal -->
+<div id="mockModal" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 hidden items-center justify-center p-4">
+  <div class="bg-[#101a2b] border border-[#26344d] rounded-2xl w-full max-w-md p-6 shadow-2xl relative">
+    <h2 class="text-xl font-bold mb-4">Record Mock Test</h2>
+    <div class="space-y-4">
+      <div>
+        <label class="block text-xs text-[#8d9bb5] mb-1">Test Name</label>
+        <input id="mockModalName" type="text" placeholder="e.g. GATE CS Full Mock Test 01" class="w-full bg-[#0b1322] border border-[#26344d] rounded-xl px-4 py-2.5 text-sm text-[#edf4ff] focus:outline-none focus:border-[#61d8ff]">
+      </div>
+      <div>
+        <label class="block text-xs text-[#8d9bb5] mb-1">Score Obtained</label>
+        <input id="mockModalScore" type="number" min="0" placeholder="e.g. 64" class="w-full bg-[#0b1322] border border-[#26344d] rounded-xl px-4 py-2.5 text-sm text-[#edf4ff] focus:outline-none focus:border-[#61d8ff]">
+      </div>
+      <div>
+        <label class="block text-xs text-[#8d9bb5] mb-1">Maximum Marks</label>
+        <input id="mockModalMax" type="number" min="1" placeholder="100" class="w-full bg-[#0b1322] border border-[#26344d] rounded-xl px-4 py-2.5 text-sm text-[#edf4ff] focus:outline-none focus:border-[#61d8ff]">
+      </div>
+      <div>
+        <label class="block text-xs text-[#8d9bb5] mb-1">Correct Questions Count</label>
+        <input id="mockModalCorrect" type="number" min="0" placeholder="45" class="w-full bg-[#0b1322] border border-[#26344d] rounded-xl px-4 py-2.5 text-sm text-[#edf4ff] focus:outline-none focus:border-[#61d8ff]">
+      </div>
+    </div>
+    <div class="flex justify-end gap-3 mt-6">
+      <button id="closeMockModal" class="bg-[#172237] hover:bg-[#26344d] text-[#8d9bb5] px-4 py-2 rounded-xl font-bold text-xs transition-all">Cancel</button>
+      <button id="saveMockBtn" class="bg-[#61d8ff] hover:bg-[#4bc2e8] text-[#061019] px-5 py-2 rounded-xl font-bold text-xs shadow-md transition-all">Save Test</button>
+    </div>
+  </div>
+</div>
+
+<!-- Custom Message Box Modal (Replacing alert) -->
+<div id="messageModal" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 hidden items-center justify-center p-4">
+  <div class="bg-[#101a2b] border border-[#26344d] rounded-2xl w-full max-w-sm p-6 shadow-2xl text-center">
+    <div id="messageIcon" class="text-3xl mb-3">🔔</div>
+    <h3 id="messageTitle" class="text-lg font-bold mb-2">Notification</h3>
+    <p id="messageText" class="text-xs text-[#8d9bb5] mb-6">Message content goes here.</p>
+    <button onclick="closeMessage()" class="bg-[#61d8ff] hover:bg-[#4bc2e8] text-[#061019] w-full py-2.5 rounded-xl font-bold text-xs shadow-md transition-all">Got it</button>
+  </div>
+</div>
+
+<script>
+  // Storage Keys
+  const SKEY = "studyOS_sessions_v3";
+  const GKEY = "studyOS_gate_v3";
+  const RKEY = "studyOS_roadmaps_v3";
+  const TKEY = "studyOS_tasks_v3";
+  const MKEY = "studyOS_mocks_v3";
+
+  // State
+  let sessions = JSON.parse(localStorage.getItem(SKEY) || "[]");
+  let gateData = JSON.parse(localStorage.getItem(GKEY) || "{}");
+  let roadmapData = JSON.parse(localStorage.getItem(RKEY) || "{}");
+  let tasks = JSON.parse(localStorage.getItem(TKEY) || "[]");
+  let mocks = JSON.parse(localStorage.getItem(MKEY) || "[]");
+  let currentPlannerFilter = 'all';
+
+  // Date helper
+  const todayKey = () => new Date().toISOString().slice(0, 10);
+  const formatMinutes = m => `${Math.floor(m / 60)}h ${m % 60}m`;
+
+  // UI Notification helper (No alert/confirm)
+  function showMessage(title, text, icon = "🔔") {
+    document.getElementById("messageTitle").textContent = title;
+    document.getElementById("messageText").textContent = text;
+    document.getElementById("messageIcon").textContent = icon;
+    document.getElementById("messageModal").classList.remove("hidden");
+    document.getElementById("messageModal").classList.add("flex");
+  }
+  function closeMessage() {
+    document.getElementById("messageModal").classList.remove("flex");
+    document.getElementById("messageModal").classList.add("hidden");
+  }
+
+  // Set Current Date Header
+  document.getElementById("currentDate").textContent = new Date().toLocaleDateString("en-IN", {
+    weekday: "long",
+    day: "numeric",
+    month: "long",
+    year: "numeric"
+  });
+
+  // Navigation Setup
+  const navButtons = document.querySelectorAll(".nav-btn");
+  const modules = document.querySelectorAll(".module");
+
+  function switchTab(pageId) {
+    navButtons.forEach(btn => {
+      if (btn.dataset.page === pageId) {
+        btn.classList.remove("text-[#8d9bb5]", "hover:bg-[#172237]", "hover:text-[#edf4ff]");
+        btn.classList.add("bg-[#172237]", "text-[#edf4ff]", "shadow-sm");
+      } else {
+        btn.classList.remove("bg-[#172237]", "text-[#edf4ff]", "shadow-sm");
+        btn.classList.add("text-[#8d9bb5]", "hover:bg-[#172237]", "hover:text-[#edf4ff]");
+      }
+    });
+
+    modules.forEach(mod => {
+      if (mod.id === pageId) {
+        mod.classList.remove("hidden");
+      } else {
+        mod.classList.add("hidden");
+      }
+    });
+
+    // Update Title header
+    const activeBtn = Array.from(navButtons).find(b => b.dataset.page === pageId);
+    if (activeBtn) {
+      document.getElementById("pageTitle").textContent = activeBtn.textContent.trim() + " 👋";
+    }
+
+    // Close mobile sidebar if open
+    document.getElementById("sidebar").classList.add("-translate-x-full");
+  }
+
+  navButtons.forEach(btn => {
+    btn.addEventListener("click", () => switchTab(btn.dataset.page));
+  });
+
+  // Mobile sidebar controls
+  document.getElementById("openSidebar").addEventListener("click", () => {
+    document.getElementById("sidebar").classList.remove("-translate-x-full");
+  });
+  document.getElementById("closeSidebar").addEventListener("click", () => {
+    document.getElementById("sidebar").classList.add("-translate-x-full");
+  });
+
+  // Save & Render All
+  function persistAll() {
+    localStorage.setItem(SKEY, JSON.stringify(sessions));
+    localStorage.setItem(GKEY, JSON.stringify(gateData));
+    localStorage.setItem(RKEY, JSON.stringify(roadmapData));
+    localStorage.setItem(TKEY, JSON.stringify(tasks));
+    localStorage.setItem(MKEY, JSON.stringify(mocks));
+    renderAll();
+  }
+
+  function renderAll() {
+    renderDashboard();
+    renderGate();
+    renderRoadmaps();
+    renderPlanner();
+    renderMocks();
+    renderAnalytics();
+  }
+
+  // --- DASHBOARD RENDERER ---
+  function getTotalTime(filterFn) {
+    return sessions.filter(filterFn).reduce((acc, curr) => acc + curr.minutes, 0);
+  }
+
+  function calculateStreak() {
+    let d = new Date();
+    let streakCount = 0;
+    while (true) {
+      let key = d.toISOString().slice(0, 10);
+      if (sessions.some(s => s.date === key)) {
+        streakCount++;
+        d.setDate(d.getDate() - 1);
+      } else {
+        break;
+      }
+    }
+    return streakCount;
+  }
+
+  function renderDashboard() {
+    const todayStr = todayKey();
+    const todayMins = getTotalTime(s => s.date === todayStr);
+    const todayCount = sessions.filter(s => s.date === todayStr).length;
+    const streak = calculateStreak();
+    const targetMins = 360; // 6 hours
+    const percent = Math.min(100, Math.round((todayMins / targetMins) * 100));
+
+    document.getElementById("statToday").textContent = formatMinutes(todayMins);
+    document.getElementById("statStreak").textContent = streak + " 🔥";
+    document.getElementById("statCount").textContent = todayCount;
+    document.getElementById("statPercent").textContent = percent + "%";
+    document.getElementById("statProgressBar").style.width = percent + "%";
+
+    // Subject Progress
+    const subjects = ["GATE", "DSA", "Web Development", "Academics", "Competition"];
+    const subjectListEl = document.getElementById("subjectProgressList");
+    subjectListEl.innerHTML = subjects.map(sub => {
+      const mins = getTotalTime(s => s.subject === sub);
+      const target = 600; // 10h target per sub for progress
+      const p = Math.min(100, Math.round((mins / target) * 100));
+      return `
+        <div>
+          <div class="flex justify-between text-xs mb-1.5 font-medium">
+            <span>${sub}</span>
+            <span class="text-[#8d9bb5]">${formatMinutes(mins)}</span>
+          </div>
+          <div class="w-full bg-[#172237] h-2 rounded-full overflow-hidden">
+            <div class="bg-gradient-to-r from-[#61d8ff] to-[#62e6b4] h-full rounded-full transition-all duration-500" style="width: ${p}%"></div>
+          </div>
+        </div>
+      `;
+    }).join("");
+
+    // Today's Sessions List
+    const todaySessions = sessions.filter(s => s.date === todayStr).slice().reverse();
+    const sessionsContainer = document.getElementById("sessionsListContainer");
+    document.getElementById("sessionCountBadge").textContent = todaySessions.length + " logged";
+
+    if (todaySessions.length === 0) {
+      sessionsContainer.innerHTML = `<div class="text-center text-[#8d9bb5] text-xs py-8">No study sessions logged today yet. Click "Log Session" to begin.</div>`;
+    } else {
+      sessionsContainer.innerHTML = todaySessions.map((s, idx) => {
+        const originalIndex = sessions.indexOf(s);
+        return `
+          <div class="bg-[#151f32] border border-[#1e2b42] rounded-xl p-3 flex justify-between items-center">
+            <div>
+              <div class="font-bold text-sm">${s.topic || "Study Session"}</div>
+              <div class="text-xs text-[#8d9bb5]">${s.subject} · ${formatMinutes(s.minutes)}</div>
+            </div>
+            <button onclick="deleteSession(${originalIndex})" class="text-[#8d9bb5] hover:text-[#ff7e91] p-1.5 rounded-lg transition-colors">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+            </button>
+          </div>
+        `;
+      }).join("");
+    }
+
+    // 7-Day Activity Calendar
+    const weekCal = document.getElementById("weekCalendar");
+    let calHTML = "";
+    for (let i = 6; i >= 0; i--) {
+      let d = new Date();
+      d.setDate(d.getDate() - i);
+      let key = d.toISOString().slice(0, 10);
+      let mins = getTotalTime(s => s.date === key);
+      let isHot = mins > 0;
+      calHTML += `
+        <div class="rounded-xl p-2.5 text-center border ${isHot ? 'bg-[#163143] border-[#4c8e9d]/40 text-white' : 'bg-[#131d30] border-[#26344d] text-[#8d9bb5]'} flex flex-col justify-between items-center">
+          <span class="text-[10px] font-bold">${d.toLocaleDateString("en-IN", { weekday: "short" })}</span>
+          <span class="text-xs font-black my-1">${d.getDate()}</span>
+          <span class="text-[10px]">${mins > 0 ? formatMinutes(mins) : '—'}</span>
+        </div>
+      `;
+    }
+    weekCal.innerHTML = calHTML;
+  }
+
+  function deleteSession(index) {
+    sessions.splice(index, 1);
+    persistAll();
+    showMessage("Deleted", "Study session successfully removed.", "🗑️");
+  }
+
+  // --- GATE COMMAND CENTER ---
+  const GATE_SYLLABUS = [
+    ["Engineering Mathematics", [["Discrete Mathematics", 12], ["Linear Algebra", 10], ["Calculus", 12], ["Probability & Statistics", 10]]],
+    ["Programming & DS", [["C Programming", 15], ["Arrays & Linked List", 12], ["Stack & Queue", 10], ["Trees & Graphs", 14], ["Hashing", 8]]],
+    ["Algorithms", [["Complexity Analysis", 8], ["Sorting & Searching", 10], ["Greedy Algorithms", 10], ["Dynamic Programming", 14], ["Graph Algorithms", 12]]],
+    ["Operating Systems", [["Processes & Threads", 12], ["CPU Scheduling", 10], ["Deadlocks", 8], ["Memory Management", 12], ["File Systems", 8]]],
+    ["DBMS", [["ER Model", 8], ["Relational Algebra & SQL", 12], ["Normalization", 10], ["Transactions & Concurrency", 10], ["Indexing & B-Trees", 8]]],
+    ["Computer Networks", [["OSI & TCP/IP", 8], ["Data Link Layer", 10], ["Network Layer & Routing", 14], ["Transport Layer", 12], ["Application Layer", 10]]]
+  ];
+
+  function getGateItemState(key) {
+    return gateData[key] || { lecture: false, dpp: false, pyq: false, revision: false };
+  }
+
+  function renderGate() {
+    const tabsContainer = document.getElementById("gateTabs");
+    const contentContainer = document.getElementById("gateContentContainer");
+
+    tabsContainer.innerHTML = GATE_SYLLABUS.map((sub, i) => `
+      <button onclick="switchGateTab(${i})" id="gateTabBtn${i}" class="px-4 py-2 rounded-xl text-xs font-semibold transition-all ${i === 0 ? 'bg-[#61d8ff] text-[#061019] shadow-md' : 'bg-[#172237] text-[#8d9bb5] hover:text-white'}">
+        ${sub[0]}
+      </button>
+    `).join("");
+
+    contentContainer.innerHTML = GATE_SYLLABUS.map((sub, i) => {
+      const chapters = sub[1];
+      // calculate subject completion
+      let totalChecks = chapters.length * 4;
+      let checkedCount = 0;
+      chapters.forEach((_, j) => {
+        let st = getGateItemState(`${i}-${j}`);
+        if (st.lecture) checkedCount++;
+        if (st.dpp) checkedCount++;
+        if (st.pyq) checkedCount++;
+        if (st.revision) checkedCount++;
+      });
+      let subPct = Math.round((checkedCount / totalChecks) * 100);
+
+      return `
+        <div id="gateSubPanel${i}" class="${i === 0 ? 'block' : 'hidden'} space-y-4">
+          <div class="flex justify-between items-center text-sm font-bold mb-2">
+            <span>${sub[0]} Progress</span>
+            <span class="text-[#62e6b4]">${subPct}% Completed</span>
+          </div>
+          <div class="w-full bg-[#172237] h-2 rounded-full overflow-hidden mb-6">
+            <div class="bg-gradient-to-r from-[#61d8ff] to-[#62e6b4] h-full rounded-full transition-all duration-500" style="width: ${subPct}%"></div>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            ${chapters.map((ch, j) => {
+              let k = `${i}-${j}`;
+              let st = getGateItemState(k);
+              return `
+                <div class="bg-[#151f32] border border-[#26344d] rounded-2xl p-4">
+                  <h3 class="font-bold text-sm mb-1">${ch[0]}</h3>
+                  <p class="text-xs text-[#8d9bb5] mb-3">Target: ${ch[1]} lectures + problem practice</p>
+                  <div class="grid grid-cols-2 gap-2 text-xs">
+                    <label class="flex items-center gap-2 cursor-pointer text-[#8d9bb5] hover:text-white">
+                      <input type="checkbox" ${st.lecture ? 'checked' : ''} onchange="toggleGate('${k}', 'lecture', this.checked)" class="accent-[#61d8ff] w-4 h-4 rounded"> Lectures
+                    </label>
+                    <label class="flex items-center gap-2 cursor-pointer text-[#8d9bb5] hover:text-white">
+                      <input type="checkbox" ${st.dpp ? 'checked' : ''} onchange="toggleGate('${k}', 'dpp', this.checked)" class="accent-[#61d8ff] w-4 h-4 rounded"> DPP Solved
+                    </label>
+                    <label class="flex items-center gap-2 cursor-pointer text-[#8d9bb5] hover:text-white">
+                      <input type="checkbox" ${st.pyq ? 'checked' : ''} onchange="toggleGate('${k}', 'pyq', this.checked)" class="accent-[#61d8ff] w-4 h-4 rounded"> PYQs Done
+                    </label>
+                    <label class="flex items-center gap-2 cursor-pointer text-[#8d9bb5] hover:text-white">
+                      <input type="checkbox" ${st.revision ? 'checked' : ''} onchange="toggleGate('${k}', 'revision', this.checked)" class="accent-[#61d8ff] w-4 h-4 rounded"> Revised
+                    </label>
+                  </div>
+                </div>
+              `;
+            }).join("")}
+          </div>
+        </div>
+      `;
+    }).join("");
+
+    updateGateOverallStats();
+  }
+
+  function switchGateTab(index) {
+    GATE_SYLLABUS.forEach((_, i) => {
+      const panel = document.getElementById(`gateSubPanel${i}`);
+      const btn = document.getElementById(`gateTabBtn${i}`);
+      if (i === index) {
+        panel.classList.remove("hidden");
+        btn.classList.remove("bg-[#172237]", "text-[#8d9bb5]");
+        btn.classList.add("bg-[#61d8ff]", "text-[#061019]", "shadow-md");
+      } else {
+        panel.classList.add("hidden");
+        btn.classList.remove("bg-[#61d8ff]", "text-[#061019]", "shadow-md");
+        btn.classList.add("bg-[#172237]", "text-[#8d9bb5]");
+      }
+    });
+  }
+
+  function toggleGate(key, field, val) {
+    if (!gateData[key]) gateData[key] = { lecture: false, dpp: false, pyq: false, revision: false };
+    gateData[key][field] = val;
+    persistAll();
+  }
+
+  function updateGateOverallStats() {
+    let totalItems = 0;
+    let completedItems = 0;
+    let counts = { lecture: 0, dpp: 0, pyq: 0, revision: 0 };
+    let totalsType = 0;
+
+    GATE_SYLLABUS.forEach((sub, i) => {
+      sub[1].forEach((_, j) => {
+        totalsType++;
+        let st = getGateItemState(`${i}-${j}`);
+        if (st.lecture) counts.lecture++;
+        if (st.dpp) counts.dpp++;
+        if (st.pyq) counts.pyq++;
+        if (st.revision) counts.revision++;
+      });
+    });
+
+    totalItems = totalsType * 4;
+    completedItems = counts.lecture + counts.dpp + counts.pyq + counts.revision;
+
+    let overallPct = Math.round((completedItems / totalItems) * 100) || 0;
+    let lecPct = Math.round((counts.lecture / totalsType) * 100) || 0;
+    let dppPct = Math.round((counts.dpp / totalsType) * 100) || 0;
+    let pyqPct = Math.round(((counts.pyq + counts.revision) / (totalsType * 2)) * 100) || 0;
+
+    document.getElementById("gateOverall").textContent = overallPct + "%";
+    document.getElementById("gateLectures").textContent = lecPct + "%";
+    document.getElementById("gateDpp").textContent = dppPct + "%";
+    document.getElementById("gatePyq").textContent = pyqPct + "%";
+  }
+
+  // --- ROADMAPS (DSA, Web Dev, Academics) ---
+  const ROADMAP_CONTENT = {
+    d: [
+      ["C++ & STL Foundations", "Pointers, references, vectors, maps, and algorithms", ["Setup Environment", "Basic Syntax & Loops", "STL Containers", "Time Complexity"]],
+      ["Arrays & Strings", "Two pointers, sliding window, prefix sums", ["Max Subarray (Kadane)", "Binary Search", "String Manipulation", "Matrix Traversal"]],
+      ["Linked List & Stacks", "Pointer manipulation and monotonic stacks", ["Singly/Doubly Linked List", "Reverse & Detect Cycle", "Valid Parentheses", "LRU Cache Design"]],
+      ["Trees & BST", "Binary trees, BST properties, heap / priority queue", ["Level Order Traversal", "Diameter & Height", "Binary Search Tree", "Min/Max Heap"]],
+      ["Graphs & BFS/DFS", "Adjacency list, shortest paths, topological sort", ["Graph Representation", "BFS & DFS Traversals", "Cycle Detection", "Dijkstra Algorithm"]],
+      ["Dynamic Programming", "Memoization, tabulation, and state transitions", ["Fibonacci / Climbing Stairs", "Knapsack 0/1", "Longest Common Subsequence", "Edit Distance"]]
+    ],
+    w: [
+      ["HTML5 & CSS3", "Semantic markup, Flexbox, Grid, and Tailwind", ["Semantic Elements", "CSS Flexbox", "CSS Grid", "Responsive Design"]],
+      ["Modern JavaScript", "ES6+, DOM manipulation, async/await, APIs", ["DOM Events", "Closures & Scope", "Promises & Fetch API", "ES6 Modules"]],
+      ["Frontend Frameworks", "React.js, components, hooks, and state management", ["Components & Props", "useState & useEffect", "Context API", "React Router"]],
+      ["Backend & Node.js", "Express.js, RESTful APIs, and middleware", ["Node.js Basics", "Express Routing", "Middleware & Auth", "Error Handling"]],
+      ["Databases & ODM", "MongoDB, Mongoose schemas, SQL basics", ["MongoDB Atlas", "Mongoose Models", "CRUD Operations", "Data Relations"]],
+      ["Deployment & CI/CD", "Vercel, Netlify, Git version control, Docker", ["Git & GitHub", "Vercel Deployment", "Environment Variables", "Production Build"]]
+    ],
+    a: [
+      ["Microprocessor & Interfacing", "8085 / 8086 architecture and assembly programming", ["Architecture Overview", "Instruction Set", "Timing Diagrams", "Interrupts & Peripherals"]],
+      ["Compiler Design", "Lexical analysis, parsing, and code generation", ["Lexical Analyzer", "LL/LR Parsing", "Syntax Directed Translation", "Code Optimization"]],
+      ["Software Engineering", "Agile methodologies, UML, testing", ["SDLC Models", "UML Diagrams", "Software Testing", "Project Estimation"]],
+      ["Computer Graphics", "Rasterization, transformations, and 3D rendering", ["Line Drawing Algorithms", "2D Transformations", "Clipping", "Lighting & Shading"]]
+    ]
+  };
+
+  function renderRoadmaps() {
+    ['d', 'w', 'a'].forEach(prefix => {
+      const containerId = prefix === 'd' ? 'dsaRoadmapContainer' : prefix === 'w' ? 'webRoadmapContainer' : 'academicRoadmapContainer';
+      const container = document.getElementById(containerId);
+      const modulesList = ROADMAP_CONTENT[prefix];
+
+      container.innerHTML = modulesList.map((mod, i) => {
+        return `
+          <div class="bg-[#151f32] border border-[#26344d] rounded-2xl p-5 flex flex-col justify-between">
+            <div>
+              <h3 class="font-bold text-base mb-1">${mod[0]}</h3>
+              <p class="text-xs text-[#8d9bb5] mb-4">${mod[1]}</p>
+              <div class="space-y-2 mb-4">
+                ${mod[2].map((topic, j) => {
+                  let k = `${prefix}-${i}-${j}`;
+                  let checked = roadmapData[k] || false;
+                  return `
+                    <label class="flex items-center gap-2.5 text-xs text-[#edf4ff] cursor-pointer hover:text-[#61d8ff]">
+                      <input type="checkbox" ${checked ? 'checked' : ''} onchange="toggleRoadmap('${k}', this.checked)" class="accent-[#61d8ff] w-4 h-4 rounded">
+                      <span class="${checked ? 'line-through text-[#8d9bb5]' : ''}">${topic}</span>
+                    </label>
+                  `;
+                }).join("")}
+              </div>
+            </div>
+          </div>
+        `;
+      }).join("");
+    });
+  }
+
+  function toggleRoadmap(key, val) {
+    roadmapData[key] = val;
+    persistAll();
+  }
+
+  function resetRoadmap(prefix) {
+    Object.keys(roadmapData).forEach(k => {
+      if (k.startsWith(prefix + "-")) delete roadmapData[k];
+    });
+    persistAll();
+    showMessage("Reset Successful", "Roadmap progress has been reset.", "🔄");
+  }
+
+  // --- DAILY PLANNER ---
+  function renderPlanner() {
+    const container = document.getElementById("plannerListContainer");
+    let filtered = tasks;
+    if (currentPlannerFilter === 'pending') filtered = tasks.filter(t => !t.done);
+    if (currentPlannerFilter === 'completed') filtered = tasks.filter(t => t.done);
+
+    if (filtered.length === 0) {
+      container.innerHTML = `<div class="text-center text-[#8d9bb5] text-xs py-10 bg-[#151f32] border border-[#26344d] rounded-2xl">No tasks found. Click "Add Task" to create one.</div>`;
+      return;
+    }
+
+    container.innerHTML = filtered.map((task, idx) => {
+      let originalIndex = tasks.indexOf(task);
+      let priorityColor = task.priority === 'High' ? 'text-[#ff7e91] bg-[#ff7e91]/10' : task.priority === 'Medium' ? 'text-[#ffc36b] bg-[#ffc36b]/10' : 'text-[#62e6b4] bg-[#62e6b4]/10';
+      return `
+        <div class="bg-[#151f32] border border-[#26344d] rounded-2xl p-4 flex items-center justify-between gap-4 transition-all hover:border-[#61d8ff]/30">
+          <div class="flex items-center gap-3">
+            <input type="checkbox" ${task.done ? 'checked' : ''} onchange="toggleTask(${originalIndex}, this.checked)" class="accent-[#61d8ff] w-5 h-5 rounded cursor-pointer">
+            <div>
+              <div class="font-bold text-sm ${task.done ? 'line-through text-[#8d9bb5]' : ''}">${task.name}</div>
+              <div class="text-xs text-[#8d9bb5] mt-0.5">${task.area} · Created ${task.date}</div>
+            </div>
+          </div>
+          <div class="flex items-center gap-3">
+            <span class="text-xs px-2.5 py-1 rounded-full font-bold ${priorityColor}">${task.priority}</span>
+            <button onclick="deleteTask(${originalIndex})" class="text-[#8d9bb5] hover:text-[#ff7e91] p-1.5 rounded-lg transition-colors">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+            </button>
+          </div>
+        </div>
+      `;
+    }).join("");
+  }
+
+  function filterPlanner(status) {
+    currentPlannerFilter = status;
+    document.querySelectorAll(".planner-tab").forEach(btn => {
+      if (btn.textContent.toLowerCase().includes(status) || (status === 'all' && btn.textContent.includes('All'))) {
+        btn.classList.remove("bg-[#101827]", "text-[#8d9bb5]");
+        btn.classList.add("bg-[#172237]", "text-[#61d8ff]", "border-[#61d8ff]/30");
+      } else {
+        btn.classList.remove("bg-[#172237]", "text-[#61d8ff]", "border-[#61d8ff]/30");
+        btn.classList.add("bg-[#101827]", "text-[#8d9bb5]");
+      }
+    });
+    renderPlanner();
+  }
+
+  function toggleTask(index, val) {
+    tasks[index].done = val;
+    persistAll();
+  }
+
+  function deleteTask(index) {
+    tasks.splice(index, 1);
+    persistAll();
+    showMessage("Task Removed", "Task has been deleted.", "🗑️");
+  }
+
+  // --- MOCK TEST TRACKER ---
+  function renderMocks() {
+    const container = document.getElementById("mockListContainer");
+    document.getElementById("mockCount").textContent = mocks.length;
+
+    if (mocks.length === 0) {
+      document.getElementById("mockAvg").textContent = "0";
+      document.getElementById("mockBest").textContent = "0";
+      document.getElementById("mockLatest").textContent = "—";
+      container.innerHTML = `<div class="text-center text-[#8d9bb5] text-xs py-10 bg-[#151f32] border border-[#26344d] rounded-2xl">No mock tests recorded yet. Click "Add Mock Test" to log scores.</div>`;
+      return;
+    }
+
+    let scores = mocks.map(m => m.score);
+    let avg = (scores.reduce((a, b) => a + b, 0) / scores.length).toFixed(1);
+    let best = Math.max(...scores);
+    let latest = mocks[mocks.length - 1].score;
+
+    document.getElementById("mockAvg").textContent = avg;
+    document.getElementById("mockBest").textContent = best;
+    document.getElementById("mockLatest").textContent = latest;
+
+    container.innerHTML = mocks.slice().reverse().map((mock, revIdx) => {
+      let idx = mocks.length - 1 - revIdx;
+      let percentage = Math.round((mock.score / mock.max) * 100);
+      return `
+        <div class="bg-[#151f32] border border-[#26344d] rounded-2xl p-4 flex items-center justify-between gap-4">
+          <div>
+            <h3 class="font-bold text-sm">${mock.name}</h3>
+            <div class="text-xs text-[#8d9bb5] mt-0.5">${mock.date} · Correct: ${mock.correct} questions</div>
+          </div>
+          <div class="flex items-center gap-4">
+            <div class="text-right">
+              <div class="text-lg font-black text-[#61d8ff]">${mock.score} <span class="text-xs text-[#8d9bb5]">/ ${mock.max}</span></div>
+              <div class="text-[10px] text-[#62e6b4] font-semibold">${percentage}% accuracy</div>
+            </div>
+            <button onclick="deleteMock(${idx})" class="text-[#8d9bb5] hover:text-[#ff7e91] p-1.5 rounded-lg transition-colors">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+            </button>
+          </div>
+        </div>
+      `;
+    }).join("");
+  }
+
+  function deleteMock(index) {
+    mocks.splice(index, 1);
+    persistAll();
+    showMessage("Test Removed", "Mock test record deleted.", "🗑️");
+  }
+
+  // --- ANALYTICS ---
+  function renderAnalytics() {
+    let allMins = getTotalTime(() => true);
+    document.getElementById("analyticsAllTime").textContent = Math.floor(allMins / 60) + "h " + (allMins % 60) + "m";
+    document.getElementById("analyticsAllSessions").textContent = sessions.length;
+
+    let dayMap = {};
+    sessions.forEach(s => {
+      dayMap[s.date] = (dayMap[s.date] || 0) + s.minutes;
+    });
+    let dayVals = Object.values(dayMap);
+    let maxMins = dayVals.length ? Math.max(...dayVals) : 0;
+    document.getElementById("analyticsBestDay").textContent = Math.floor(maxMins / 60) + "h " + (maxMins % 60) + "m";
+
+    let subjects = ["GATE", "DSA", "Web Development", "Academics", "Competition"];
+    let bestSub = subjects.sort((a, b) => getTotalTime(s => s.subject === b) - getTotalTime(s => s.subject === a))[0];
+    document.getElementById("analyticsMainSubject").textContent = bestSub || "—";
+
+    // 30-day heatmap
+    let monthContainer = document.getElementById("monthCalendarContainer");
+    let heatmapHTML = "";
+    for (let i = 29; i >= 0; i--) {
+      let d = new Date();
+      d.setDate(d.getDate() - i);
+      let key = d.toISOString().slice(0, 10);
+      let mins = dayMap[key] || 0;
+      let hasStudied = mins > 0;
+      heatmapHTML += `
+        <div class="rounded-xl p-3 text-center border ${hasStudied ? 'bg-[#163143] border-[#4c8e9d]/40 text-white shadow-sm' : 'bg-[#131d30] border-[#26344d] text-[#8d9bb5]'} flex flex-col justify-between items-center aspect-square">
+          <span class="text-[10px] font-bold">${d.getDate()}</span>
+          <span class="text-xs font-black">${mins > 0 ? (Math.round((mins / 60) * 10) / 10) + 'h' : '—'}</span>
+        </div>
+      `;
+    }
+    monthContainer.innerHTML = heatmapHTML;
+  }
+
+  // --- POMODORO TIMER ---
+  let timerSeconds = 1500;
+  let timerInterval = null;
+  let timerRunning = false;
+  let timerModeType = 'pomodoro';
+
+  function updateTimerDisplay() {
+    let m = Math.floor(timerSeconds / 60);
+    let s = timerSeconds % 60;
+    document.getElementById("timerDisplay").textContent = `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+  }
+
+  function setTimerMode(type, mins) {
+    if (timerRunning) {
+      clearInterval(timerInterval);
+      timerRunning = false;
+      document.getElementById("timerStartBtn").textContent = "Start Focus";
+    }
+    timerModeType = type;
+    timerSeconds = mins * 60;
+    updateTimerDisplay();
+
+    ['Pomodoro', 'ShortBreak', 'LongBreak'].forEach(t => {
+      const btn = document.getElementById(`mode${t}`);
+      if (t.toLowerCase() === type.toLowerCase()) {
+        btn.classList.remove("bg-[#101827]", "text-[#8d9bb5]");
+        btn.classList.add("bg-[#172237]", "text-[#61d8ff]", "border-[#61d8ff]/40");
+      } else {
+        btn.classList.remove("bg-[#172237]", "text-[#61d8ff]", "border-[#61d8ff]/40");
+        btn.classList.add("bg-[#101827]", "text-[#8d9bb5]");
+      }
+    });
+  }
+
+  function startTimer() {
+    if (timerRunning) return;
+    timerRunning = true;
+    document.getElementById("timerStartBtn").textContent = "Running...";
+    
+    timerInterval = setInterval(() => {
+      if (timerSeconds > 0) {
+        timerSeconds--;
+        updateTimerDisplay();
+      } else {
+        clearInterval(timerInterval);
+        timerRunning = false;
+        document.getElementById("timerStartBtn").textContent = "Start Focus";
+
+        if (timerModeType === 'pomodoro') {
+          // Auto log session
+          let sub = document.getElementById("timerSubject").value;
+          sessions.push({
+            date: todayKey(),
+            subject: sub,
+            topic: "Pomodoro Focus Session (25m)",
+            minutes: 25
+          });
+          persistAll();
+          showMessage("Focus Session Completed! 🎉", "25 minutes have been automatically logged to your study dashboard.", "🎯");
+        } else {
+          showMessage("Break Over! ⚡", "Time to jump back into your study sprint.", "⏰");
+        }
+      }
+    }, 1000);
+  }
+
+  function pauseTimer() {
+    if (!timerRunning) return;
+    clearInterval(timerInterval);
+    timerRunning = false;
+    document.getElementById("timerStartBtn").textContent = "Resume";
+  }
+
+  function resetTimer() {
+    clearInterval(timerInterval);
+    timerRunning = false;
+    document.getElementById("timerStartBtn").textContent = "Start Focus";
+    if (timerModeType === 'pomodoro') timerSeconds = 1500;
+    else if (timerModeType === 'shortBreak') timerSeconds = 300;
+    else timerSeconds = 900;
+    updateTimerDisplay();
+  }
+
+  // --- MODAL EVENT LISTENERS ---
+  // Log Session Modal
+  const sessionModal = document.getElementById("sessionModal");
+  document.getElementById("addSessionBtn").addEventListener("click", () => {
+    sessionModal.classList.remove("hidden");
+    sessionModal.classList.add("flex");
+  });
+  document.getElementById("closeSessionModal").addEventListener("click", () => {
+    sessionModal.classList.remove("flex");
+    sessionModal.classList.add("hidden");
+  });
+  document.getElementById("saveSessionBtn").addEventListener("click", () => {
+    let sub = document.getElementById("modalSubject").value;
+    let topic = document.getElementById("modalTopic").value.trim();
+    let mins = Number(document.getElementById("modalMinutes").value);
+
+    if (!mins || mins <= 0) {
+      showMessage("Invalid Input", "Please enter a valid study duration in minutes.", "⚠️");
+      return;
+    }
+
+    sessions.push({ date: todayKey(), subject: sub, topic: topic || "Study Session", minutes: mins });
+    document.getElementById("modalTopic").value = "";
+    document.getElementById("modalMinutes").value = "";
+    sessionModal.classList.remove("flex");
+    sessionModal.classList.add("hidden");
+    persistAll();
+    showMessage("Success!", "Study session logged successfully.", "✅");
+  });
+
+  // Add Task Modal
+  const taskModal = document.getElementById("taskModal");
+  document.getElementById("openTaskModal").addEventListener("click", () => {
+    taskModal.classList.remove("hidden");
+    taskModal.classList.add("flex");
+  });
+  document.getElementById("closeTaskModal").addEventListener("click", () => {
+    taskModal.classList.remove("flex");
+    taskModal.classList.add("hidden");
+  });
+  document.getElementById("saveTaskBtn").addEventListener("click", () => {
+    let name = document.getElementById("taskModalName").value.trim();
+    let area = document.getElementById("taskModalArea").value;
+    let priority = document.getElementById("taskModalPriority").value;
+
+    if (!name) {
+      showMessage("Invalid Task", "Please enter a task description.", "⚠️");
+      return;
+    }
+
+    tasks.push({ name, area, priority, done: false, date: todayKey() });
+    document.getElementById("taskModalName").value = "";
+    taskModal.classList.remove("flex");
+    taskModal.classList.add("hidden");
+    persistAll();
+    showMessage("Task Added", "Your task has been successfully scheduled.", "✅");
+  });
+
+  // Add Mock Test Modal
+  const mockModal = document.getElementById("mockModal");
+  document.getElementById("openMockModal").addEventListener("click", () => {
+    mockModal.classList.remove("hidden");
+    mockModal.classList.add("flex");
+  });
+  document.getElementById("closeMockModal").addEventListener("click", () => {
+    mockModal.classList.remove("flex");
+    mockModal.classList.add("hidden");
+  });
+  document.getElementById("saveMockBtn").addEventListener("click", () => {
+    let name = document.getElementById("mockModalName").value.trim();
+    let score = Number(document.getElementById("mockModalScore").value);
+    let max = Number(document.getElementById("mockModalMax").value);
+    let correct = Number(document.getElementById("mockModalCorrect").value);
+
+    if (!name || !max) {
+      showMessage("Invalid Input", "Please enter a test name and maximum marks.", "⚠️");
+      return;
+    }
+
+    mocks.push({ name, score, max, correct, date: todayKey() });
+    document.getElementById("mockModalName").value = "";
+    document.getElementById("mockModalScore").value = "";
+    document.getElementById("mockModalMax").value = "";
+    document.getElementById("mockModalCorrect").value = "";
+    mockModal.classList.remove("flex");
+    mockModal.classList.add("hidden");
+    persistAll();
+    showMessage("Mock Test Recorded", "Your mock test has been logged.", "🏆");
+  });
+
+  // Export Data helper
+  function exportData() {
+    const data = { sessions, gateData, roadmapData, tasks, mocks };
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `StudyOS_Backup_${todayKey()}.json`;
+    a.click();
+    showMessage("Data Exported", "Your backup JSON file has been downloaded.", "💾");
+  }
+
+  // Initial Render on Load
+  renderAll();
+  updateTimerDisplay();
+</script>
+</body>
+</html>
